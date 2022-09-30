@@ -29,9 +29,14 @@ func main() {
 
 	for _, item := range output.Reservations {
 		for _, instance := range item.Instances {
-			fmt.Printf("instance: %s, ec2-public-ip: %s\n",
+			ip := ""
+			if instance.PublicIpAddress != nil {
+				ip = *instance.PublicIpAddress
+			}
+			fmt.Printf("instance: %s, state: %s, ec2-public-ip: %s\n",
 				*instance.InstanceId,
-				*instance.NetworkInterfaces[0].Association.PublicIp,
+				instance.State.Name,
+				ip,
 			)
 		}
 	}
